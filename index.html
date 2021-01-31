@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-    <script src='https://npmcdn.com/@turf/turf/turf.min.js' charset='utf-8'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' /> -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
     <title>SEA LEVEL CHANGE</title>
@@ -191,18 +188,18 @@
         })
 
         const parishes = {
-                stcharles: "St. Charles Parish",
-                plaquemines: "Plaquemines",
-                terrebonne: "Terrebonne",
-                lafourche: "LaFourche",
-                orleans: "Orleans",
-                jefferson: "Jefferson",
-                stbernard: "Saint Bernard",
-                stmary: "Saint Mary",
-                vermilion: "Vermilion",
-                cameron: "Cameron",
-                iberia: "Iberia"
-            }
+            stcharles: ["St. Charles Parish", 9700],
+            plaquemines: ["Plaquemines", 50700],
+            terrebonne: ["Terrebonne", 34400],
+            lafourche: ["LaFourche", 37000],
+            orleans: ["Orleans", 28000],
+            jefferson: ["Jefferson", 34900],
+            stbernard: ["Saint Bernard", 40100],
+            stmary: ["Saint Mary", 8700],
+            vermilion: ["Vermilion", 10300],
+            cameron: ["Cameron", 35300],
+            iberia: ["Iberia", 8100]
+        }
 
         map.on('load', function () {
             // map.setPaintProperty('lacoast-5erseh', 'fill-color', '#F00')
@@ -222,10 +219,10 @@
                     source: 'lacoast',
                     paint: {
                         'fill-extrusion-color': "#0F0",
-                        'fill-extrusion-height': 10000,
+                        'fill-extrusion-height': v[1],
                         'fill-extrusion-opacity': 0.
                     },
-                    filter: ["==", "name", v]
+                    filter: ["==", "name", v[0]]
                 })
             })
 
