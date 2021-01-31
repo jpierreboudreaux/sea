@@ -125,7 +125,7 @@
                             <i><b>EFFECTS OF THE SEA</b></i>
                         </span>
                         <p>
-                            As the rate of the <b>sea level rise</b> accelerates with climate change and human activity, many millions of people and countless species of wildlife are at risk of losing everything.
+                            As the effects of the sea level rising and coastal erosion accelerate, millions of people, countless amounts of wildlife, and potentially billions of dollars in property are at risk.
                         </p>
                     </div>
                     <div class="card">
@@ -151,6 +151,7 @@
                         <img src="https://static.barnden.dev/LA_Dime_1893.png" alt="Picture of Louisiana's Coast in 1893">
                     </div>
                     <div class="content">
+                        <p>Coastal erosion has already escalated to staggering levels in the Gulf of Mexico. Post 1930, Louisiana has lost upwards of 2000 square miles of land, and the continual erosion causes an entire football field of wetlands to subside every 100 minutes.</p>
                         <p>The above map shows what a portion of the Louisiana coast line looked like in 1893, notice all the darker shades of blue indicating land.</p>
                         <p>Below, is the same spot over 128 years later...</p>
                     </div>
@@ -165,7 +166,11 @@
                         <p>This poses a risk far greater than the eroding delta as it [insert text here].</p>
                     </div>
                 </div>
-                <div class="today"></div>
+                <div id="content-3" class="content-wrapper">
+                    <div class="content">
+                        <p class="section">TITLE</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -180,6 +185,7 @@
             style: 'mapbox://styles/barnden/ckkk1x5gu0qm317mie9b3uj8q',
             center: [0, 0],
             zoom: 7,
+            pitch: 40,
             interactive: false,
             continuousWorld: false,
             noWrap: true
@@ -194,17 +200,18 @@
                 data: 'https://static.barnden.dev/lacoast.json'
             })
 
-            // map.addLayer({
-            //     id: "test",
-            //     type: 'fill-extrusion',
-            //     source: 'lacoast',
-            //     paint: {
-            //         'fill-extrusion-color': "#0F0",
-            //         'fill-extrusion-height': 10000,
-            //         'fill-extrusion-opacity': 0.5
-            //     },
-            //     filter: ["==", "name", "St. Charles Parish"]
-            // })
+            map.addLayer({
+                id: "stcharles",
+                type: 'fill-extrusion',
+                source: 'lacoast',
+                paint: {
+                    'fill-extrusion-color': "#0F0",
+                    'fill-extrusion-height': 10000,
+                    'fill-extrusion-opacity': 0.5
+                },
+                filter: ["==", "name", "St. Charles Parish"]
+            })
+            map.setPaintProperty("test", "fill-extrusion-height", 50000)
             // map.addLayer({
             //             id: "test2",
             //             type: 'fill-extrusion',
