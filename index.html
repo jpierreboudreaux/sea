@@ -160,7 +160,8 @@
                         <p>
                             In the present day, all the coastal regions that are highlighted in red are at risk of being flooded by rising sea levels caused by climate change.
                         </p>
-                        <p>This poses a risk far greater than the eroding delta as it [insert text here].</p>
+                        <p>This poses a great risk to not only the land remaining in the delta, but even in other coastal regions.</p>
+                        <div id="pd"></div>
                     </div>
                 </div>
                 <div id="content-3" class="content-wrapper">
@@ -181,29 +182,28 @@
             style: 'mapbox://styles/barnden/ckkk1x5gu0qm317mie9b3uj8q',
             center: [0, 0],
             zoom: 7,
-            pitch: 40,
+            pitch: 50,
             interactive: false,
             continuousWorld: false,
             noWrap: true
         })
 
         const parishes = {
-            stcharles: ["St. Charles Parish", 9700],
-            plaquemines: ["Plaquemines", 50700],
-            terrebonne: ["Terrebonne", 34400],
-            lafourche: ["LaFourche", 37000],
-            orleans: ["Orleans", 28000],
-            jefferson: ["Jefferson", 34900],
-            stbernard: ["Saint Bernard", 40100],
-            stmary: ["Saint Mary", 8700],
-            vermilion: ["Vermilion", 10300],
-            cameron: ["Cameron", 35300],
-            iberia: ["Iberia", 8100]
+            stcharles: ["St. Charles Parish", 9700, "#FC9F5B"],
+            plaquemines: ["Plaquemines", 50700, "#FBD1A2"],
+            terrebonne: ["Terrebonne", 34400, "#72B01D"],
+            lafourche: ["LaFourche", 37000, "#7DCFB6"],
+            orleans: ["Orleans", 28000, "#33CA7F"],
+            jefferson: ["Jefferson", 34900, "#9C528B"],
+            stbernard: ["Saint Bernard", 40100, "#610F7F"],
+            stmary: ["Saint Mary", 8700, "#21FA90"],
+            vermilion: ["Vermilion", 10300, "#F7B538"],
+            cameron: ["Cameron", 35300, "#98473E"],
+            iberia: ["Iberia", 8100, "#FF1053"]
         }
 
         map.on('load', function () {
-            // map.setPaintProperty('lacoast-5erseh', 'fill-color', '#F00')
-            // map.setPaintProperty('lacoast-5erseh', 'fill-opacity', 0.15)
+            window.scrollTo(0, 0)
 
             map.addSource('lacoast', {
                 type: 'geojson',
@@ -218,12 +218,21 @@
                     type: 'fill-extrusion',
                     source: 'lacoast',
                     paint: {
-                        'fill-extrusion-color': "#0F0",
+                        'fill-extrusion-color': v[2],
                         'fill-extrusion-height': 0,
                         'fill-extrusion-opacity': 0.
                     },
                     filter: ["==", "name", v[0]]
                 })
+            })
+
+            map.addLayer({
+                id: 'coast',
+                type: 'fill',
+                source: 'lacoast',
+                paint: {
+                    'fill-opacity': 0.
+                }
             })
 
             // This is how you update one of the "paint" properties.
@@ -245,6 +254,20 @@
                 map.jumpTo({ center: [cx, cy], zoom: czoom })
             }
 
+            map.on('mousemove', function(e) {
+                if (window.scrollTop < 3000) return
+                var parish = map.queryRenderedFeatures(e.point, {
+                    layers: ['coast']
+                });
+
+                if (parish.length > 0) {
+                    console.log(parish[0])
+                    document.getElementById('pd').innerHTML = '<h3><strong>' + parish[0].properties.name + '</strong></h3><p><strong><em>' + parish[0].properties.losspercent + '</strong>% of land lost from 1930</em></p>';
+                } else {
+                    document.getElementById('pd').innerHTML = '<p>Hover over a parish for more information.</p>';
+                }
+            })
+
             window.addEventListener('scroll', e => {
                 let y = window.scrollY
 
@@ -260,7 +283,7 @@
                     goto(...false_river, inv)
 
                     if (overlay) {
-                        map.setPaintProperty('lacoast-5erseh', 'fill-opacity', 0.0)
+                        map.setPaintProperty('coast', 'fill-opacity', 0.0)
                         overlay = false
                     }
 
@@ -269,8 +292,8 @@
                     goto(...la, inv)
 
                     if (!overlay) {
-                        map.setPaintProperty('lacoast-5erseh', 'fill-color', '#F00')
-                        map.setPaintProperty('lacoast-5erseh', 'fill-opacity', 0.15)
+                        map.setPaintProperty('coast', 'fill-color', '#F00')
+                        map.setPaintProperty('coast', 'fill-opacity', 0.15)
                         overlay = true
                     }
 
