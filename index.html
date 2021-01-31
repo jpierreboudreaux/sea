@@ -219,7 +219,7 @@
                     source: 'lacoast',
                     paint: {
                         'fill-extrusion-color': "#0F0",
-                        'fill-extrusion-height': v[1],
+                        'fill-extrusion-height': 0,
                         'fill-extrusion-opacity': 0.
                     },
                     filter: ["==", "name", v[0]]
@@ -261,9 +261,6 @@
 
                     if (overlay) {
                         map.setPaintProperty('lacoast-5erseh', 'fill-opacity', 0.0)
-
-                        // Set opacity of extrusion layers to 0 (invisible)
-                        Object.keys(parishes).forEach(e => map.setPaintProperty(e, 'fill-extrusion-opacity', 0))
                         overlay = false
                     }
 
@@ -274,11 +271,22 @@
                     if (!overlay) {
                         map.setPaintProperty('lacoast-5erseh', 'fill-color', '#F00')
                         map.setPaintProperty('lacoast-5erseh', 'fill-opacity', 0.15)
-
-                        // Set opacity of extrusion layers to 0.5 (visible)
-                        Object.keys(parishes).forEach(e => map.setPaintProperty(e, 'fill-extrusion-opacity', 0.5))
                         overlay = true
                     }
+
+                    // Set opacity of extrusion layers to 0 (invisible)
+                    Object.entries(parishes).forEach(e => {
+                        let [k, v] = e
+                        map.setPaintProperty(k, 'fill-extrusion-opacity', 0)
+                        map.setPaintProperty(k, 'fill-extrusion-height', 0)
+                    })
+                } else if (y > 5000) {
+                    // Set opacity of extrusion layers to 0.5 (visible)
+                    Object.entries(parishes).forEach(e => {
+                        let [k, v] = e
+                        map.setPaintProperty(k, 'fill-extrusion-opacity', 0.5)
+                        map.setPaintProperty(k, 'fill-extrusion-height', v[1])
+                    })
                 }
             })
         })
